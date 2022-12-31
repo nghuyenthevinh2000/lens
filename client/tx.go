@@ -75,7 +75,7 @@ func (cc *ChainClient) SendMsgs(ctx context.Context, msgs []sdk.Msg, memo string
 	txf = txf.WithGas(adjusted)
 
 	// Build the transaction builder
-	txb, err := txf.BuildUnsignedTx(msgs...)
+	txb, err := tx.BuildUnsignedTx(txf, msgs...)
 	if err != nil {
 		return nil, err
 	}
@@ -293,7 +293,7 @@ type protoTxProvider interface {
 // BuildSimTx creates an unsigned tx with an empty single signature and returns
 // the encoded transaction or an error if the unsigned transaction cannot be built.
 func BuildSimTx(info keyring.Info, txf tx.Factory, msgs ...sdk.Msg) ([]byte, error) {
-	txb, err := txf.BuildUnsignedTx(msgs...)
+	txb, err := tx.BuildUnsignedTx(txf, msgs...)
 	if err != nil {
 		return nil, err
 	}
